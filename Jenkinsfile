@@ -3,35 +3,31 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Build Stage Started'
-                sh 'hostname'
+                echo 'Source downloaded'
             }
         }
 
-        stage('Test') {
+        stage('Verify') {
             steps {
-                echo 'Test Stage Started'
-                sh 'uptime'
+                sh 'ls -la'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploy Stage Started'
-                sh 'date'
+                sh '''
+                rsync -av --delete ./ root@192.168.255.142:/var/lib/docker/volumes/apachevol/_data/
+                '''
             }
         }
-    }
-
-    post {
-        success {
-            echo 'Pipeline Completed Successfully'
-        }
-
-        failure {
-            echo 'Pipeline Failed'
+        stage('Verify Deployment') {
+            steps {
+                sh '''
+                curl -f http://192.168.255.142:8080
+                '''
+            }
         }
     }
 }
