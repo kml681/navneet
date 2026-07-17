@@ -18,7 +18,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                rsync -av --delete ./ root@192.168.255.142:/var/lib/docker/volumes/apachevol/_data/
+                rsync -av --delete ./ root@192.168.255.142:/var/lib/docker/volumes/kml-volume/_data/
                 '''
             }
         }
