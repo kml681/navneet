@@ -1,50 +1,37 @@
 pipeline {
     agent any
 
-    environment {
-        APP_NAME = "MyApp"
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/example/myapp.git', branch: 'main'
-            }
-        }
 
         stage('Build') {
             steps {
-                echo "Building ${APP_NAME}"
-                sh 'mvn clean package'
+                echo 'Build Stage Started'
+                sh 'hostname'
             }
         }
 
         stage('Test') {
             steps {
-                echo "Running tests..."
-                sh 'mvn test'
+                echo 'Test Stage Started'
+                sh 'uptime'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo "Deploying application..."
-                sh './deploy.sh'
+                echo 'Deploy Stage Started'
+                sh 'date'
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline finished.'
-        }
-
         success {
-            echo 'Build succeeded!'
+            echo 'Pipeline Completed Successfully'
         }
 
         failure {
-            echo 'Build failed!'
+            echo 'Pipeline Failed'
         }
     }
 }
